@@ -1,0 +1,23 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: medflow-auth
+spec:
+  hosts:
+    - medflow.example.com
+  gateways:
+    - medflow-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /auth
+      route:
+        - destination:
+            host: auth-service
+            subset: blue
+          weight: 100
+        - destination:
+            host: auth-service
+            subset: green
+          weight: 0
+

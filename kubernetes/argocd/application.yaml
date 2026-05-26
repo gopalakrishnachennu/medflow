@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: medflow-dev
+  namespace: argocd
+spec:
+  project: medflow
+  source:
+    repoURL: https://github.com/gopalakrishnachennu/medflow.git
+    targetRevision: main
+    path: kubernetes/helm-charts/medflow
+    helm:
+      valueFiles:
+        - values-dev.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: medflow-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

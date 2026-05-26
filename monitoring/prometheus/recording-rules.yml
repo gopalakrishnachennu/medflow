@@ -1,0 +1,6 @@
+groups:
+  - name: medflow-recording-rules
+    rules:
+      - record: job:up:ratio
+        expr: avg by (job) (up)
+

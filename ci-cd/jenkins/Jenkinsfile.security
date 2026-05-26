@@ -1,0 +1,18 @@
+pipeline {
+  agent any
+
+  stages {
+    stage('Trivy Filesystem Scan') {
+      steps {
+        sh 'trivy fs --severity HIGH,CRITICAL --ignore-unfixed .'
+      }
+    }
+
+    stage('Checkov IaC Scan') {
+      steps {
+        sh 'checkov -d infrastructure'
+      }
+    }
+  }
+}
+

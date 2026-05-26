@@ -1,0 +1,70 @@
+name: medflow-build-images
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/services/**"
+      - ".github/workflows/build-images.yml"
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: Optional image tag. Defaults to the commit SHA.
+        required: false
+
+permissions:
+  contents: read
+  id-token: write
+  security-events: write
+
+env:
+  AWS_REGION: ${{ vars.AWS_REGION || 'us-east-2' }}
+  IMAGE_TAG: ${{ inputs.image_tag || github.sha }}
+
+jobs:
+  build-auth-service:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_GITHUB_OIDC_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set image metadata
+        id: image
+        run: |
+          echo "repository=${{ steps.ecr.outputs.registry }}/medflow/auth-service" >> "$GITHUB_OUTPUT"
+          echo "tag=${IMAGE_TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: src/services/auth-service
+          file: src/services/auth-service/Dockerfile
+          load: true
+          tags: ${{ steps.image.outputs.repository }}:${{ steps.image.outputs.tag }}
+
+      - name: Trivy image scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ steps.image.outputs.repository }}:${{ steps.image.outputs.tag }}
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          format: sarif
+          output: trivy-auth-service.sarif
+
+      - name: Upload Trivy SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-auth-service.sarif
+
+      - name: Push image to ECR
+        run: docker push "${{ steps.image.outputs.repository }}:${{ steps.image.outputs.tag }}"

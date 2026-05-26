@@ -1,0 +1,27 @@
+pipeline {
+  agent any
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Test Auth Service') {
+      steps {
+        dir('src/services/auth-service') {
+          sh 'python3 -m pip install -r requirements.txt'
+          sh 'python3 -m pytest'
+        }
+      }
+    }
+
+    stage('Build Images') {
+      steps {
+        sh 'docker compose build'
+      }
+    }
+  }
+}
+

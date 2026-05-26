@@ -1,0 +1,7 @@
+---
+- name: Setup monitoring tools
+  hosts: monitoring
+  become: true
+  roles:
+    - prometheus
+

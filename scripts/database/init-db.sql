@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS service_bootstrap_log (
+  id SERIAL PRIMARY KEY,
+  service_name VARCHAR(100) NOT NULL,
+  initialized_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+

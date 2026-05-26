@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: medflow-config
+data:
+  ENVIRONMENT: {{ .Values.global.environment | quote }}
+

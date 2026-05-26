@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: medflow-apps
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/gopalakrishnachennu/medflow.git
+    targetRevision: main
+    path: kubernetes/argocd
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd

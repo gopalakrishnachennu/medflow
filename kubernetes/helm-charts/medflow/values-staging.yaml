@@ -1,0 +1,7 @@
+global:
+  environment: staging
+
+services:
+  auth:
+    replicas: 2
+

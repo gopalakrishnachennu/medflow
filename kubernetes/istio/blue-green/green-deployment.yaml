@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service-green
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-service
+      version: green
+  template:
+    metadata:
+      labels:
+        app: auth-service
+        version: green
+    spec:
+      containers:
+        - name: auth-service
+          image: medflow/auth-service:green
+          ports:
+            - containerPort: 8000
+

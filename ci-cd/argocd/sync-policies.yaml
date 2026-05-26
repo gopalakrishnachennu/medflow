@@ -1,0 +1,8 @@
+syncWindows:
+  - kind: allow
+    schedule: "0 9-17 * * 1-5"
+    duration: 8h
+    applications:
+      - medflow-dev
+    manualSync: true
+

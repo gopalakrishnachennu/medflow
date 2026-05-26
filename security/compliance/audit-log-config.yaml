@@ -1,0 +1,9 @@
+audit:
+  enabled: true
+  events:
+    - user_login
+    - patient_record_read
+    - patient_record_update
+    - prescription_created
+    - invoice_created
+

@@ -1,0 +1,11 @@
+groups:
+  - name: medflow-service-alerts
+    rules:
+      - alert: MedFlowServiceDown
+        expr: up == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "MedFlow service target is down"
+

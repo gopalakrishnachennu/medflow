@@ -1,0 +1,12 @@
+services:
+  auth-service-test:
+    build:
+      context: ./src/services/auth-service
+    environment:
+      ENVIRONMENT: test
+      LOG_LEVEL: INFO
+      DATABASE_URL: sqlite+pysqlite:///:memory:
+      JWT_SECRET_KEY: test-secret
+      JWT_ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 5
+    command: ["python", "-m", "pytest", "-q"]

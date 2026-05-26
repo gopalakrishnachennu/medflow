@@ -1,0 +1,8 @@
+route:
+  receiver: default
+
+receivers:
+  - name: default
+    email_configs: []
+    slack_configs: []
+

@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: auth-service
+spec:
+  host: auth-service
+  subsets:
+    - name: blue
+      labels:
+        version: blue
+    - name: green
+      labels:
+        version: green
+

@@ -1,0 +1,65 @@
+global:
+  imageRegistry: ""
+  environment: dev
+
+serviceAccount:
+  create: true
+  name: medflow
+  annotations: {}
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+  seccompProfile:
+    type: RuntimeDefault
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+
+services:
+  auth:
+    enabled: true
+    name: auth-service
+    image:
+      repository: medflow/auth-service
+      tag: "0.1.0"
+    port: 8000
+    replicas: 2
+    env:
+      APP_NAME: medflow-auth-service
+      LOG_LEVEL: INFO
+    secretEnv:
+      DATABASE_URL:
+        secretName: medflow-auth-secrets
+        key: database-url
+      JWT_SECRET_KEY:
+        secretName: medflow-auth-secrets
+        key: jwt-secret-key
+      JWT_ALGORITHM:
+        secretName: medflow-auth-secrets
+        key: jwt-algorithm
+      ACCESS_TOKEN_EXPIRE_MINUTES:
+        secretName: medflow-auth-secrets
+        key: access-token-expire-minutes
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+ingress:
+  enabled: true
+  className: nginx
+  host: medflow.local
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1

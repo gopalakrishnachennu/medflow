@@ -1,0 +1,7 @@
+global:
+  environment: prod
+
+services:
+  auth:
+    replicas: 3
+

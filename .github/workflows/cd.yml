@@ -1,0 +1,43 @@
+name: medflow-cd
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment
+        required: true
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+      image_tag:
+        description: Container image tag to promote
+        required: true
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install CD tooling
+        run: python3 -m pip install pyyaml
+      - name: Update GitOps image tag
+        run: |
+          values_file="kubernetes/helm-charts/medflow/values-${{ inputs.environment }}.yaml"
+          if [ ! -f "$values_file" ]; then
+            echo "Missing values file: $values_file" >&2
+            exit 1
+          fi
+          python3 scripts/setup/update_helm_image_tag.py "$values_file" auth "${{ inputs.image_tag }}"
+
+      - name: Commit GitOps change
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "promote auth-service to ${{ inputs.image_tag }} in ${{ inputs.environment }}"
+          file_pattern: kubernetes/helm-charts/medflow/values-${{ inputs.environment }}.yaml
