@@ -96,6 +96,7 @@ jobs:
           DATABASE_URL: "sqlite:///./test.db"
           SECRET_KEY: "test-secret-key-for-ci"
           ENVIRONMENT: "test"
+          PYTHONPATH: "."
 
       - name: 📊 Upload coverage report
         if: matrix.service != 'frontend'
