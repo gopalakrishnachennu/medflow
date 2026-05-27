@@ -4,5 +4,162 @@ global:
 
 services:
   auth:
+    enabled: true
+    name: auth-service
+    image:
+      repository: medflow/auth-service
+      tag: latest
+    port: 8000
     replicas: 1
+    env:
+      APP_NAME: medflow-auth-service
+      LOG_LEVEL: INFO
+    secretEnv:
+      DATABASE_URL:
+        secretName: medflow-auth-secrets
+        key: database-url
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
 
+  patient:
+    enabled: true
+    name: patient-service
+    image:
+      repository: medflow/patient-service
+      tag: latest
+    port: 8000
+    replicas: 1
+    env:
+      APP_NAME: medflow-patient-service
+      LOG_LEVEL: INFO
+    secretEnv:
+      DATABASE_URL:
+        secretName: medflow-auth-secrets
+        key: database-url
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+  appointment:
+    enabled: true
+    name: appointment-service
+    image:
+      repository: medflow/appointment-service
+      tag: latest
+    port: 8000
+    replicas: 1
+    env:
+      APP_NAME: medflow-appointment-service
+      LOG_LEVEL: INFO
+    secretEnv:
+      DATABASE_URL:
+        secretName: medflow-auth-secrets
+        key: database-url
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+  records:
+    enabled: true
+    name: records-service
+    image:
+      repository: medflow/records-service
+      tag: latest
+    port: 8000
+    replicas: 1
+    env:
+      APP_NAME: medflow-records-service
+      LOG_LEVEL: INFO
+    secretEnv:
+      DATABASE_URL:
+        secretName: medflow-auth-secrets
+        key: database-url
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+  pharmacy:
+    enabled: true
+    name: pharmacy-service
+    image:
+      repository: medflow/pharmacy-service
+      tag: latest
+    port: 8000
+    replicas: 1
+    env:
+      APP_NAME: medflow-pharmacy-service
+      LOG_LEVEL: INFO
+    secretEnv:
+      DATABASE_URL:
+        secretName: medflow-auth-secrets
+        key: database-url
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+  billing:
+    enabled: true
+    name: billing-service
+    image:
+      repository: medflow/billing-service
+      tag: latest
+    port: 8000
+    replicas: 1
+    env:
+      APP_NAME: medflow-billing-service
+      LOG_LEVEL: INFO
+    secretEnv:
+      DATABASE_URL:
+        secretName: medflow-auth-secrets
+        key: database-url
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+  notification:
+    enabled: true
+    name: notification-service
+    image:
+      repository: medflow/notification-service
+      tag: latest
+    port: 8000
+    replicas: 1
+    env:
+      APP_NAME: medflow-notification-service
+      LOG_LEVEL: INFO
+    secretEnv:
+      DATABASE_URL:
+        secretName: medflow-auth-secrets
+        key: database-url
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
