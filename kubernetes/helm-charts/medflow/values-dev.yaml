@@ -7,7 +7,7 @@ services:
     name: auth-service
     image:
       repository: medflow/auth-service
-      tag: latest
+      tag: 3dd1af897881fa07ffca31a930c38534d8d5f807
     port: 8000
     replicas: 1
     env:
