@@ -1,7 +1,6 @@
 global:
   environment: dev
-  imageRegistry: "724476121315.dkr.ecr.us-east-2.amazonaws.com/"
-
+  imageRegistry: 724476121315.dkr.ecr.us-east-2.amazonaws.com/
 services:
   auth:
     enabled: true
@@ -25,13 +24,12 @@ services:
       limits:
         cpu: 500m
         memory: 512Mi
-
   patient:
     enabled: true
     name: patient-service
     image:
       repository: medflow/patient-service
-      tag: latest
+      tag: 6d17e7d0134408fec9ca023b6e40a38a9a06ffa2
     port: 8000
     replicas: 1
     env:
@@ -48,7 +46,6 @@ services:
       limits:
         cpu: 500m
         memory: 512Mi
-
   appointment:
     enabled: true
     name: appointment-service
@@ -71,7 +68,6 @@ services:
       limits:
         cpu: 500m
         memory: 512Mi
-
   records:
     enabled: true
     name: records-service
@@ -94,7 +90,6 @@ services:
       limits:
         cpu: 500m
         memory: 512Mi
-
   pharmacy:
     enabled: true
     name: pharmacy-service
@@ -117,7 +112,6 @@ services:
       limits:
         cpu: 500m
         memory: 512Mi
-
   billing:
     enabled: true
     name: billing-service
@@ -140,7 +134,6 @@ services:
       limits:
         cpu: 500m
         memory: 512Mi
-
   notification:
     enabled: true
     name: notification-service
