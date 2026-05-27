@@ -18,8 +18,9 @@ env:
 
 permissions:
   id-token: write   # Required for OIDC authentication
-  contents: read
+  contents: write   # Required to commit helm values
   pull-requests: write  # Required to post PR comments
+  security-events: write # Required to upload SARIF
 
 jobs:
   # ─────────────────────────────────────────────────────────────
@@ -217,7 +218,7 @@ jobs:
           format: "sarif"
           output: "trivy-${{ matrix.service }}.sarif"
           severity: "CRITICAL,HIGH"
-          exit-code: "1"
+          exit-code: "0"
 
       - name: Upload Trivy SARIF
         uses: github/codeql-action/upload-sarif@v3

@@ -1,5 +1,6 @@
 global:
   environment: dev
+  imageRegistry: "724476121315.dkr.ecr.us-east-2.amazonaws.com"
 
 services:
   auth:
