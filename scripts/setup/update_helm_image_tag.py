@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import argparse
 import sys
 from pathlib import Path
 
@@ -6,13 +7,24 @@ import yaml
 
 
 def main() -> int:
-    if len(sys.argv) != 4:
-        print("usage: update_helm_image_tag.py <values-file> <service-key> <image-tag>", file=sys.stderr)
-        return 2
+    parser = argparse.ArgumentParser(description="Update Helm values image tag")
+    parser.add_argument("--values-file", required=True, help="Path to values file")
+    parser.add_argument("--service", required=True, help="Service name")
+    parser.add_argument("--tag", required=True, help="Image tag")
+    args = parser.parse_args()
 
-    values_path = Path(sys.argv[1])
-    service_key = sys.argv[2]
-    image_tag = sys.argv[3]
+    values_path = Path(args.values_file)
+    service_key = args.service
+    image_tag = args.tag
+
+    # For medflow chart, services are nested under "services"
+    # But let's handle the specific structure from values-dev.yaml
+    # Strip "-service" suffix for the key if needed, or keep it.
+    # The helm chart expects just "auth", "patient", etc.
+    if service_key.endswith("-service"):
+        helm_key = service_key[:-8]
+    else:
+        helm_key = service_key
 
     if not values_path.exists():
         print(f"values file does not exist: {values_path}", file=sys.stderr)
@@ -20,7 +32,7 @@ def main() -> int:
 
     data = yaml.safe_load(values_path.read_text()) or {}
     services = data.setdefault("services", {})
-    service = services.setdefault(service_key, {})
+    service = services.setdefault(helm_key, {})
     image = service.setdefault("image", {})
     image["tag"] = image_tag
 

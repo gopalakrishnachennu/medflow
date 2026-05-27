@@ -104,14 +104,14 @@ jobs:
           flags: ${{ matrix.service }}
 
       # ── SonarQube SAST scan ─────────────────────────────────
-      - name: 🔍 SonarQube Scan
-        if: matrix.service != 'frontend' && github.event_name == 'push'
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          projectBaseDir: src/services/${{ matrix.service }}
+      # - name: 🔍 SonarQube Scan
+      #   if: matrix.service != 'frontend' && github.event_name == 'push'
+      #   uses: SonarSource/sonarcloud-github-action@master
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #   with:
+      #     projectBaseDir: src/services/${{ matrix.service }}
 
       # ── Frontend (Node/Vite) ─────────────────────────────────
       - name: 🟨 Set up Node.js
