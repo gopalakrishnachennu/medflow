@@ -98,10 +98,11 @@ jobs:
           ENVIRONMENT: "test"
           PYTHONPATH: "."
 
-      - name: 📊 Upload coverage report
+      - name: 📊 Upload coverage to Codecov
         if: matrix.service != 'frontend'
         uses: codecov/codecov-action@v4
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           files: src/services/${{ matrix.service }}/coverage.xml
           flags: ${{ matrix.service }}
 
@@ -200,7 +201,7 @@ jobs:
       - name: 🐳 Build & push image
         uses: docker/build-push-action@v5
         with:
-          context: src/services/${{ matrix.service }}
+          context: ${{ matrix.service == 'frontend' && 'src/frontend' || format('src/services/{0}', matrix.service) }}
           push: true
           tags: |
             ${{ steps.ecr-login.outputs.registry }}/${{ env.PROJECT_NAME }}/${{ matrix.service }}:${{ github.sha }}

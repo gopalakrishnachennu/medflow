@@ -165,3 +165,19 @@ services:
       limits:
         cpu: 500m
         memory: 512Mi
+  frontend:
+    enabled: true
+    name: frontend
+    type: LoadBalancer
+    image:
+      repository: medflow/frontend
+      tag: 3dd1af897881fa07ffca31a930c38534d8d5f807
+    port: 80
+    replicas: 1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
