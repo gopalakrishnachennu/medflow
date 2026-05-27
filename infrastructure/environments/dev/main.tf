@@ -46,3 +46,39 @@ module "budget" {
   limit_usd    = var.monthly_budget_limit_usd
   alert_email  = var.budget_alert_email
 }
+
+module "eks" {
+  source          = "../../modules/eks"
+  cluster_name    = "${var.project_name}-dev"
+  environment     = "dev"
+  vpc_id          = module.vpc.vpc_id
+  subnet_ids      = module.vpc.private_subnet_ids
+}
+
+resource "aws_security_group" "rds" {
+  name_prefix = "${var.project_name}-rds-sg-"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    description = "Allow PostgreSQL traffic from VPC"
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc_cidr_block]
+  }
+
+  tags = {
+    Name    = "${var.project_name}-rds-sg"
+    Project = var.project_name
+  }
+}
+
+module "rds" {
+  source                 = "../../modules/rds"
+  identifier             = "${var.project_name}-dev-db"
+  environment            = "dev"
+  db_name                = "medflow"
+  username               = "medflow_admin"
+  subnet_ids             = module.vpc.private_subnet_ids
+  vpc_security_group_ids = [aws_security_group.rds.id]
+}
