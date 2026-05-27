@@ -15,7 +15,7 @@ services:
       LOG_LEVEL: INFO
     secretEnv:
       DATABASE_URL:
-        secretName: medflow-auth-secrets
+        secretName: medflow-real-secrets
         key: database-url
     resources:
       requests:
@@ -37,7 +37,7 @@ services:
       LOG_LEVEL: INFO
     secretEnv:
       DATABASE_URL:
-        secretName: medflow-auth-secrets
+        secretName: medflow-real-secrets
         key: database-url
     resources:
       requests:
@@ -59,7 +59,7 @@ services:
       LOG_LEVEL: INFO
     secretEnv:
       DATABASE_URL:
-        secretName: medflow-auth-secrets
+        secretName: medflow-real-secrets
         key: database-url
     resources:
       requests:
@@ -81,7 +81,7 @@ services:
       LOG_LEVEL: INFO
     secretEnv:
       DATABASE_URL:
-        secretName: medflow-auth-secrets
+        secretName: medflow-real-secrets
         key: database-url
     resources:
       requests:
@@ -103,7 +103,7 @@ services:
       LOG_LEVEL: INFO
     secretEnv:
       DATABASE_URL:
-        secretName: medflow-auth-secrets
+        secretName: medflow-real-secrets
         key: database-url
     resources:
       requests:
@@ -125,7 +125,7 @@ services:
       LOG_LEVEL: INFO
     secretEnv:
       DATABASE_URL:
-        secretName: medflow-auth-secrets
+        secretName: medflow-real-secrets
         key: database-url
     resources:
       requests:
