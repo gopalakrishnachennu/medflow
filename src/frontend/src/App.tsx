@@ -62,7 +62,7 @@ function App() {
       </main>
 
       <footer className="footer">
-        <p>MedFlow System Status: All Systems Operational | Current Time: {currentTime}</p>
+        <p>🚀 MedFlow System Status: All Systems Operational | Current Time: {currentTime}</p>
         <p>Copyright © {new Date().getFullYear()} Gopall Chennu. All rights reserved.</p>
       </footer>
     </>
