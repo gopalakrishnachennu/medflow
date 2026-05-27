@@ -17,6 +17,15 @@ services:
       DATABASE_URL:
         secretName: medflow-real-secrets
         key: database-url
+      JWT_SECRET_KEY:
+        secretName: medflow-real-secrets
+        key: jwt-secret-key
+      JWT_ALGORITHM:
+        secretName: medflow-real-secrets
+        key: jwt-algorithm
+      ACCESS_TOKEN_EXPIRE_MINUTES:
+        secretName: medflow-real-secrets
+        key: access-token-expire-minutes
     resources:
       requests:
         cpu: 100m
@@ -147,7 +156,7 @@ services:
       LOG_LEVEL: INFO
     secretEnv:
       DATABASE_URL:
-        secretName: medflow-auth-secrets
+        secretName: medflow-real-secrets
         key: database-url
     resources:
       requests:
