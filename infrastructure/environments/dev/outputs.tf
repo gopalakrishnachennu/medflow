@@ -11,4 +11,5 @@ output "ecr_repository_urls" {
 output "budget_enabled" {
   value       = module.budget.budget_enabled
   description = "Whether the AWS Budget alert is enabled for dev."
+  sensitive   = true
 }

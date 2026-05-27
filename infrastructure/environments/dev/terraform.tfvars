@@ -9,5 +9,4 @@ github_repository = "medflow"
 
 monthly_budget_limit_usd = 30
 
-# Set this before applying the AWS budget resource.
-budget_alert_email = ""
+budget_alert_email = "aravindkasireddy5@gmail.com"
