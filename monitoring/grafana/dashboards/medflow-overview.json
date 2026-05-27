@@ -1,7 +1,43 @@
 {
   "title": "MedFlow Overview",
+  "uid": "medflow-overview",
   "schemaVersion": 39,
-  "version": 1,
-  "panels": []
+  "version": 2,
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Total Running Pods (MedFlow)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "count(kube_pod_status_phase{namespace=\"medflow-dev\", phase=\"Running\"})",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "CPU Usage per Pod",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"medflow-dev\", container!=\"\"}[5m])) by (pod)",
+          "refId": "A",
+          "legendFormat": "{{pod}}"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Memory Usage per Pod",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 8 },
+      "targets": [
+        {
+          "expr": "sum(container_memory_working_set_bytes{namespace=\"medflow-dev\", container!=\"\"}) by (pod)",
+          "refId": "A",
+          "legendFormat": "{{pod}}"
+        }
+      ]
+    }
+  ]
 }
-
