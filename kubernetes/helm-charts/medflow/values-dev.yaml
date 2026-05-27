@@ -172,7 +172,7 @@ services:
     image:
       repository: medflow/frontend
       tag: eed850eec85847631ff1ef59c0701638e315af91
-    port: 80
+    port: 8080
     replicas: 1
     resources:
       requests:
