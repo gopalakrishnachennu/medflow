@@ -171,7 +171,7 @@ services:
     type: LoadBalancer
     image:
       repository: medflow/frontend
-      tag: c040ce5d85a4f09c3ba8a7bdd5b5d76cda16a6f7
+      tag: 6fdbf43fd3364a7b7020a210f3e0de3b285be391
     port: 8080
     replicas: 1
     resources:
