@@ -1,24 +1,42 @@
 import React, { useState, useEffect } from 'react';
 
 // Mock data representing the 7 microservices
-const microservices = [
-  { name: 'Auth Service', description: 'Handles JWT Authentication & User Management', icon: '🔒' },
-  { name: 'Patient Service', description: 'Patient Electronic Health Records & Profiles', icon: '🏥' },
-  { name: 'Appointment Service', description: 'Scheduling and Calendar Management', icon: '📅' },
-  { name: 'Records Service', description: 'Medical History and Diagnostics Storage', icon: '📂' },
-  { name: 'Pharmacy Service', description: 'Prescription Management and Inventory', icon: '💊' },
-  { name: 'Billing Service', description: 'Invoicing, Insurance, and Payments', icon: '💳' },
-  { name: 'Notification Service', description: 'Email and SMS Patient Alerts', icon: '🔔' },
+const initialMicroservices = [
+  { id: 'auth-service', name: 'Auth Service', description: 'Handles JWT Authentication & User Management', icon: '🔒' },
+  { id: 'patient-service', name: 'Patient Service', description: 'Patient Electronic Health Records & Profiles', icon: '🏥' },
+  { id: 'appointment-service', name: 'Appointment Service', description: 'Scheduling and Calendar Management', icon: '📅' },
+  { id: 'records-service', name: 'Records Service', description: 'Medical History and Diagnostics Storage', icon: '📂' },
+  { id: 'pharmacy-service', name: 'Pharmacy Service', description: 'Prescription Management and Inventory', icon: '💊' },
+  { id: 'billing-service', name: 'Billing Service', description: 'Invoicing, Insurance, and Payments', icon: '💳' },
+  { id: 'notification-service', name: 'Notification Service', description: 'Email and SMS Patient Alerts', icon: '🔔' },
 ];
 
 function App() {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
+  const [statuses, setStatuses] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString());
     }, 1000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const checkHealth = async () => {
+      for (const service of initialMicroservices) {
+        try {
+          const res = await fetch(`/api/${service.id}/health`);
+          setStatuses(prev => ({ ...prev, [service.id]: res.ok }));
+        } catch (err) {
+          setStatuses(prev => ({ ...prev, [service.id]: false }));
+        }
+      }
+    };
+
+    checkHealth();
+    const interval = setInterval(checkHealth, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -29,13 +47,18 @@ function App() {
       </header>
 
       <main className="glass-grid">
-        {microservices.map((service, index) => (
-          <div key={index} className="glass-card">
-            <h3>{service.icon} {service.name}</h3>
-            <p>{service.description}</p>
-            <span className="status-badge status-online">● Online</span>
-          </div>
-        ))}
+        {initialMicroservices.map((service) => {
+          const isOnline = statuses[service.id] !== false; // Default to online until checked
+          return (
+            <div key={service.id} className={`glass-card ${!isOnline ? 'offline' : ''}`}>
+              <h3>{service.icon} {service.name}</h3>
+              <p>{service.description}</p>
+              <span className={`status-badge ${isOnline ? 'status-online' : 'status-offline'}`}>
+                {isOnline ? '● Online' : '● Offline'}
+              </span>
+            </div>
+          );
+        })}
       </main>
 
       <footer className="footer">
