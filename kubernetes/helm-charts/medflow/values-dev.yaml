@@ -7,7 +7,7 @@ services:
     name: auth-service
     image:
       repository: medflow/auth-service
-      tag: 3dd1af897881fa07ffca31a930c38534d8d5f807
+      tag: 75f9993206005128e2ffaec41951bfbf6aa072aa
     port: 8000
     replicas: 1
     env:
@@ -38,7 +38,7 @@ services:
     name: patient-service
     image:
       repository: medflow/patient-service
-      tag: 3dd1af897881fa07ffca31a930c38534d8d5f807
+      tag: 75f9993206005128e2ffaec41951bfbf6aa072aa
     port: 8000
     replicas: 1
     env:
@@ -60,7 +60,7 @@ services:
     name: appointment-service
     image:
       repository: medflow/appointment-service
-      tag: 3dd1af897881fa07ffca31a930c38534d8d5f807
+      tag: 75f9993206005128e2ffaec41951bfbf6aa072aa
     port: 8000
     replicas: 1
     env:
@@ -82,7 +82,7 @@ services:
     name: records-service
     image:
       repository: medflow/records-service
-      tag: 3dd1af897881fa07ffca31a930c38534d8d5f807
+      tag: 75f9993206005128e2ffaec41951bfbf6aa072aa
     port: 8000
     replicas: 1
     env:
@@ -104,7 +104,7 @@ services:
     name: pharmacy-service
     image:
       repository: medflow/pharmacy-service
-      tag: 3dd1af897881fa07ffca31a930c38534d8d5f807
+      tag: 75f9993206005128e2ffaec41951bfbf6aa072aa
     port: 8000
     replicas: 1
     env:
@@ -126,7 +126,7 @@ services:
     name: billing-service
     image:
       repository: medflow/billing-service
-      tag: 3dd1af897881fa07ffca31a930c38534d8d5f807
+      tag: 75f9993206005128e2ffaec41951bfbf6aa072aa
     port: 8000
     replicas: 1
     env:
@@ -148,7 +148,7 @@ services:
     name: notification-service
     image:
       repository: medflow/notification-service
-      tag: 3dd1af897881fa07ffca31a930c38534d8d5f807
+      tag: 75f9993206005128e2ffaec41951bfbf6aa072aa
     port: 8000
     replicas: 1
     env:
@@ -171,7 +171,7 @@ services:
     type: LoadBalancer
     image:
       repository: medflow/frontend
-      tag: 3dd1af897881fa07ffca31a930c38534d8d5f807
+      tag: 75f9993206005128e2ffaec41951bfbf6aa072aa
     port: 80
     replicas: 1
     resources:
