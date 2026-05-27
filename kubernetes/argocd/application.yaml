@@ -4,7 +4,7 @@ metadata:
   name: medflow-dev
   namespace: argocd
 spec:
-  project: medflow
+  project: default
   source:
     repoURL: https://github.com/gopalakrishnachennu/medflow.git
     targetRevision: main
