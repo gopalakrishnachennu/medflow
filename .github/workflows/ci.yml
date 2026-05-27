@@ -204,7 +204,6 @@ jobs:
           push: true
           tags: |
             ${{ steps.ecr-login.outputs.registry }}/${{ env.PROJECT_NAME }}/${{ matrix.service }}:${{ github.sha }}
-            ${{ steps.ecr-login.outputs.registry }}/${{ env.PROJECT_NAME }}/${{ matrix.service }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
           labels: |
