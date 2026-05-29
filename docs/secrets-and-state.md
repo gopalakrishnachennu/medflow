@@ -35,19 +35,62 @@ Flow:
 
 ## Kubernetes Secrets
 
-The Helm chart currently contains placeholder secret values in:
+The Helm chart does not store real secret values. It only references Kubernetes Secret names and keys through `secretEnv` in the values files.
 
 ```text
-kubernetes/helm-charts/medflow/templates/secrets.yaml
+kubernetes/helm-charts/medflow/values-dev.yaml
+kubernetes/helm-charts/medflow/templates/deployment.yaml
 ```
 
-These are not real secrets. For an AWS deployment, replace this with one of:
+Current runtime secret expected by the Helm chart:
 
-- AWS Secrets Manager + External Secrets Operator
-- SOPS-encrypted secrets
-- Sealed Secrets
+```text
+medflow-real-secrets
+  database-url
+  jwt-secret-key
+  jwt-algorithm
+  access-token-expire-minutes
+```
 
 Preferred enterprise path: AWS Secrets Manager + External Secrets Operator.
+
+Flow:
+
+```text
+AWS Secrets Manager
+  -> External Secrets Operator
+  -> Kubernetes Secret medflow-real-secrets
+  -> Helm Deployment secretEnv
+  -> application environment variables
+```
+
+Supporting files:
+
+```text
+kubernetes/argocd/external-secrets-application.yaml
+kubernetes/external-secrets/cluster-secret-store.yaml
+kubernetes/external-secrets/medflow-dev-external-secret.yaml
+infrastructure/modules/external-secrets-irsa/
+```
+
+AWS Secrets Manager entries expected for dev:
+
+```text
+dev/medflow-dev-db/credentials
+  username
+  password
+  engine
+  dbname
+  host
+  port
+
+/medflow/dev/app
+  jwt-secret-key
+  jwt-algorithm
+  access-token-expire-minutes
+```
+
+Terraform creates the RDS credential secret and an empty app runtime secret. The actual app runtime values must be added in AWS Secrets Manager through an approved secure process, not committed to Git.
 
 ## AWS Credentials
 
@@ -96,4 +139,3 @@ infrastructure/environments/dev/terraform.tfstate
 ```
 
 Do not commit `terraform.tfstate` or `*.tfstate.*`.
-

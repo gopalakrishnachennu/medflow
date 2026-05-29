@@ -1,9 +1,0 @@
----
-- name: Setup ELK stack
-  hosts: logging
-  become: true
-  tasks:
-    - name: Placeholder
-      ansible.builtin.debug:
-        msg: "Install and configure ELK in Phase 10."
-

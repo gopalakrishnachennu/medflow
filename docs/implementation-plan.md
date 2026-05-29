@@ -6,7 +6,7 @@ This plan turns the original MedFlow structure into a careful build sequence. Th
 
 The original plan is strong because it covers application code, infrastructure, Kubernetes, CI/CD, monitoring, security, and operations. That is exactly what an advanced DevOps project should include.
 
-The main risk is scope. A full healthcare microservices platform with EKS, Istio, Kong, Argo CD, Jenkins, GitHub Actions, ELK, Prometheus, HIPAA-style compliance, and disaster recovery is too much to build safely as a single pass. The correct approach is phased implementation with working checkpoints.
+The main risk is scope. A full healthcare microservices platform with EKS, Istio, Kong, Argo CD, GitHub Actions, ELK, Prometheus, HIPAA-style compliance, and disaster recovery is too much to build safely as a single pass. The correct approach is phased implementation with working checkpoints.
 
 ## Corrections to the Original Plan
 
@@ -150,8 +150,6 @@ Deliverables:
 
 - GitHub Actions CI
 - GitHub Actions security workflow
-- Jenkinsfile
-- Jenkins shared library functions
 - Image build and push workflow
 
 Validation:

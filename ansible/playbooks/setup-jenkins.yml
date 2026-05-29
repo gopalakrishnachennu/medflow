@@ -1,7 +1,0 @@
----
-- name: Setup Jenkins
-  hosts: jenkins
-  become: true
-  roles:
-    - jenkins
-

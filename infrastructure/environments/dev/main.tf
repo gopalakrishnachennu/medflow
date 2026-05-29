@@ -48,11 +48,11 @@ module "budget" {
 }
 
 module "eks" {
-  source          = "../../modules/eks"
-  cluster_name    = "${var.project_name}-dev"
-  environment     = "dev"
-  vpc_id          = module.vpc.vpc_id
-  subnet_ids      = module.vpc.private_subnet_ids
+  source       = "../../modules/eks"
+  cluster_name = "${var.project_name}-dev"
+  environment  = "dev"
+  vpc_id       = module.vpc.vpc_id
+  subnet_ids   = module.vpc.private_subnet_ids
 }
 
 resource "aws_security_group" "rds" {
@@ -81,4 +81,26 @@ module "rds" {
   username               = "medflow_admin"
   subnet_ids             = module.vpc.private_subnet_ids
   vpc_security_group_ids = [aws_security_group.rds.id]
+}
+
+resource "aws_secretsmanager_secret" "app_runtime" {
+  name        = "/${var.project_name}/dev/app"
+  description = "Runtime application secrets for MedFlow dev. Values are managed outside Git."
+
+  tags = {
+    Project     = var.project_name
+    Environment = "dev"
+  }
+}
+
+module "external_secrets_irsa" {
+  source = "../../modules/external-secrets-irsa"
+
+  project_name      = var.project_name
+  environment       = "dev"
+  oidc_provider_arn = module.eks.oidc_provider_arn
+  secret_arns = [
+    module.rds.secret_arn,
+    aws_secretsmanager_secret.app_runtime.arn
+  ]
 }

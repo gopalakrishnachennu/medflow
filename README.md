@@ -83,6 +83,7 @@ make down
 
 ## Enterprise Notes
 
+- [CI/CD and GitOps Architecture Deep Dive](docs/cicd-gitops-architecture-deep-dive.md)
 - [Enterprise Readiness](docs/enterprise-readiness.md)
 - [Enterprise Delivery Model](docs/enterprise-delivery.md)
 - [AWS Access Guide](docs/aws-access.md)
